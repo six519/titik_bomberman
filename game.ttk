@@ -1,50 +1,17 @@
-#!titik
 
-i("settings")
-i("init")
-i("sprites")
-i("sounds")
+fd game_title(event)
 
-bg_title = load_sprite('assets/bg_title.png')
-bg_title_rect = s_cr(0, 0, GAME_WIDTH, GAME_HEIGHT)
-char1_title = load_sprite('assets/char1_title.png')
-char1_title_rect = s_cr(0, 0, 48, 71)
-char1_title_rect_pos = s_cr(8, -71, 48, 71)
-char2_title = load_sprite('assets/char2_title.png')
-char2_title_rect = s_cr(0, 0, 46, 68)
-char2_title_rect_pos = s_cr(GAME_WIDTH - (46 + 35), GAME_HEIGHT, 46, 68)
-press_enter_title = load_sprite('assets/press_enter_title.png')
-press_enter_title_rect = s_cr(0, 0, 106, 18)
-press_enter_title_rect_pos = s_cr((GAME_WIDTH / 2) - (106 / 2), 150, 106, 18)
-
-ship_title = load_sprite('assets/ship_title.png')
-ship_title_rect = s_cr(0, 0, 112, 71)
-ship_title_rect_pos = s_cr((GAME_WIDTH / 2) - (112 / 2), -71, 112, 71)
-text_title = load_sprite('assets/text_title.png')
-text_title_rect = s_cr(0, 0, 253, 128)
-text_title_rect_pos = s_cr(GAME_WIDTH, 5, 253, 128)
-
-slide_title = F
-slide_char = F
-title_music_play = F
-
-title_music = load_music('assets/title.mp3')
-
-game_state = 0
-
-wl(T)
-	event = s_pe()
 	event_type = s_gte(event)
 
 	# handle events
 	if(event_type == S_E_Q)
-		brk
+		rtn T
 	ef(event_type == S_E_KD)
 		if (s_kre(event) == 0)
 			scode = s_ksce(event)
 			if (scode == S_SC_E)
 				# escape
-				brk
+				rtn T
 			ef (scode == S_SC_U)
 				# up
 			ef (scode == S_SC_D)
@@ -57,89 +24,65 @@ wl(T)
 		fi
 	fi
 
-	if (game_state == 0)
-		# title
-		s_clsre(renderer)
+	# title
+	s_clsre(renderer)
 
-		# draw background
-		s_cpre(renderer, bg_title, bg_title_rect, bg_title_rect)
-		
-		# draw ship
-		s_cpre(renderer, ship_title, ship_title_rect, ship_title_rect_pos)
-		stv = s_gvr(ship_title_rect_pos)
-		if (stv["y"] <= 20)
-			val = stv["y"] + 1
-			s_svr(ship_title_rect_pos, stv["x"], val, stv["width"], stv["height"])
-		el
-			slide_char = T
-		fi
+	# draw background
+	s_cpre(renderer, bg_title, bg_title_rect, bg_title_rect)
 
-		# draw char 1 & 2 & text title
-		s_cpre(renderer, text_title, text_title_rect, text_title_rect_pos)
-		s_cpre(renderer, char1_title, char1_title_rect, char1_title_rect_pos)
-		s_cpre(renderer, char2_title, char2_title_rect, char2_title_rect_pos)
-		if (slide_char)
-			c1tv = s_gvr(char1_title_rect_pos)
-			c1tvb = (GAME_HEIGHT / 2) - (71 / 2)
-			c2tv = s_gvr(char2_title_rect_pos)
-
-			if (c1tv["y"] <= c1tvb)
-				val = c1tv["y"] + 10
-				s_svr(char1_title_rect_pos, c1tv["x"], val, c1tv["width"], c1tv["height"])
-			fi
-
-			if (c2tv["y"] >= 142)
-				val = c2tv['y']
-				val = val - 5
-				s_svr(char2_title_rect_pos, c2tv['x'], val, c2tv['width'], c2tv['height'])
-			el
-				slide_title = T
-			fi 
-		fi
-
-		if (slide_title)
-			ttv = s_gvr(text_title_rect_pos)
-
-			if (ttv["x"] >= 5)
-				val = ttv['x']
-				val = val - 5
-				s_svr(text_title_rect_pos, val, ttv['y'], ttv['width'], ttv['height'])
-			el
-				if (!(title_music_play))
-					title_music_play = T
-					s_mpm(title_music, -1)
-				fi
-			fi
-		fi
-
-		if (title_music_play)
-			s_cpre(renderer, press_enter_title, press_enter_title_rect, press_enter_title_rect_pos)
-		fi
-
-		s_pre(renderer)
+	# draw ship
+	s_cpre(renderer, ship_title, ship_title_rect, ship_title_rect_pos)
+	stv = s_gvr(ship_title_rect_pos)
+	if (stv["y"] <= 20)
+		val = stv["y"] + 1
+		s_svr(ship_title_rect_pos, stv["x"], val, stv["width"], stv["height"])
+	el
+		sgv("slide_char", T)
 	fi
 
-	s_d(25) #delay
-	s_ce(event)
-lw
+	# draw char 1 & 2 & text title
+	s_cpre(renderer, text_title, text_title_rect, text_title_rect_pos)
+	s_cpre(renderer, char1_title, char1_title_rect, char1_title_rect_pos)
+	s_cpre(renderer, char2_title, char2_title_rect, char2_title_rect_pos)
+	if (slide_char)
+		c1tv = s_gvr(char1_title_rect_pos)
+		c1tvb = (GAME_HEIGHT / 2) - (71 / 2)
+		c2tv = s_gvr(char2_title_rect_pos)
 
-# cleanup
-destroy_sprite(bg_title)
-destroy_sprite(char1_title)
-destroy_sprite(char2_title)
-destroy_sprite(press_enter_title)
-destroy_sprite(ship_title)
-destroy_sprite(text_title)
+		if (c1tv["y"] <= c1tvb)
+			val = c1tv["y"] + 10
+			s_svr(char1_title_rect_pos, c1tv["x"], val, c1tv["width"], c1tv["height"])
+		fi
 
-free_music(title_music)
+		if (c2tv["y"] >= 142)
+			val = c2tv['y']
+			val = val - 5
+			s_svr(char2_title_rect_pos, c2tv['x'], val, c2tv['width'], c2tv['height'])
+		el
+			sgv("slide_title", T)
+		fi 
+	fi
 
-s_clr(bg_title_rect)
-s_clr(ship_title_rect)
-s_clr(ship_title_rect_pos)
+	if (slide_title)
+		ttv = s_gvr(text_title_rect_pos)
 
-s_mq()
-s_dre(renderer)
-s_dw(win)
-s_q()
+		if (ttv["x"] >= 5)
+			val = ttv['x']
+			val = val - 5
+			s_svr(text_title_rect_pos, val, ttv['y'], ttv['width'], ttv['height'])
+		el
+			if (!(title_music_play))
+				sgv("title_music_play", T)
+				s_mpm(title_music, -1)
+			fi
+		fi
+	fi
 
-p('Game quits!!!\n\n')
+	if (title_music_play)
+		s_cpre(renderer, press_enter_title, press_enter_title_rect, press_enter_title_rect_pos)
+	fi
+
+	s_pre(renderer)
+
+	rtn F
+df

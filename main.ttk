@@ -1,0 +1,68 @@
+#!titik
+
+i("settings")
+i("init")
+i("sprites")
+i("sounds")
+i("game")
+
+bg_title = load_sprite('assets/bg_title.png')
+bg_title_rect = s_cr(0, 0, GAME_WIDTH, GAME_HEIGHT)
+char1_title = load_sprite('assets/char1_title.png')
+char1_title_rect = s_cr(0, 0, 48, 71)
+char1_title_rect_pos = s_cr(8, -71, 48, 71)
+char2_title = load_sprite('assets/char2_title.png')
+char2_title_rect = s_cr(0, 0, 46, 68)
+char2_title_rect_pos = s_cr(GAME_WIDTH - (46 + 35), GAME_HEIGHT, 46, 68)
+press_enter_title = load_sprite('assets/press_enter_title.png')
+press_enter_title_rect = s_cr(0, 0, 106, 18)
+press_enter_title_rect_pos = s_cr((GAME_WIDTH / 2) - (106 / 2), 150, 106, 18)
+
+ship_title = load_sprite('assets/ship_title.png')
+ship_title_rect = s_cr(0, 0, 112, 71)
+ship_title_rect_pos = s_cr((GAME_WIDTH / 2) - (112 / 2), -71, 112, 71)
+text_title = load_sprite('assets/text_title.png')
+text_title_rect = s_cr(0, 0, 253, 128)
+text_title_rect_pos = s_cr(GAME_WIDTH, 5, 253, 128)
+
+slide_title = F
+slide_char = F
+title_music_play = F
+
+title_music = load_music('assets/title.mp3')
+
+game_state = 0
+
+wl(T)
+	event = s_pe()
+
+	if (game_state == 0)
+		if (game_title(event))
+			brk
+		fi
+	fi
+
+	s_d(20) #delay
+	s_ce(event)
+lw
+
+# cleanup
+destroy_sprite(bg_title)
+destroy_sprite(char1_title)
+destroy_sprite(char2_title)
+destroy_sprite(press_enter_title)
+destroy_sprite(ship_title)
+destroy_sprite(text_title)
+
+free_music(title_music)
+
+s_clr(bg_title_rect)
+s_clr(ship_title_rect)
+s_clr(ship_title_rect_pos)
+
+s_mq()
+s_dre(renderer)
+s_dw(win)
+s_q()
+
+p('Game quits!!!\n\n')
