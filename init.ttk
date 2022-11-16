@@ -1,0 +1,16 @@
+
+if(!(s_i(S_E)))
+	abt('Unable to initialize SDL...')
+fi
+
+#win = s_cw(GAME_TITLE, S_WP_C, S_WP_C, GAME_WIDTH, GAME_HEIGHT, S_W_F)
+win = s_cw(GAME_TITLE, S_WP_U, S_WP_U, WIN_WIDTH, WIN_HEIGHT, S_W_S)
+if(win == Nil)
+	abt('Unable to create window...')
+fi
+
+renderer = s_cre(win, -1, S_R_A)
+if(renderer == Nil)
+	abt('Unable to create renderer')
+fi
+s_slsre(renderer, GAME_WIDTH, GAME_HEIGHT)

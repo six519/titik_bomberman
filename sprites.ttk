@@ -1,0 +1,18 @@
+
+fd load_sprite(img)
+	image = s_li(img)
+	if(image == Nil)
+		abt('Unable to load image...')
+	fi
+
+	texture = s_ctfsre(renderer, image)
+	if(texture == Nil)
+		abt('Unable to create texture...')
+	fi
+
+	rtn texture
+df
+
+fd destroy_sprite(spr)
+	s_dt(spr)
+df

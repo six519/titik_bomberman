@@ -1,0 +1,22 @@
+
+if(!(s_mi(SM_MP))) # init mix
+	abt('Unable to initialize SDL Mix...')
+fi
+
+if(!(s_moa(SM_D_FR, SM_D_FO, SM_D_CHA, SM_D_CHU))) # open audio
+	abt('Unable to open audio...')
+fi
+
+fd load_music(mus)
+	music = s_mlm(mus)
+
+	if(music == Nil)
+		abt('Cannot load mp3 file...')
+	fi
+
+	rtn music
+df
+
+fd free_music(mus)
+	s_mfm(mus)
+df
