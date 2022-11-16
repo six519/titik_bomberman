@@ -141,3 +141,5 @@ s_mq()
 s_dre(renderer)
 s_dw(win)
 s_q()
+
+p('Game quits!!!\n\n')
